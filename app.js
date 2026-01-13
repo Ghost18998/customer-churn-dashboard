@@ -285,20 +285,41 @@ function applyFilters(rows){
 }
 
 // KPIs now come from the Web Worker (async)
-function renderKPIsFromWorker() {
-  $("kCustomers").classList.add("loading");
-$("kChurn").classList.add("loading");
-$("kMonthly").classList.add("loading");
+function animateValue(el, start, end, duration = 900, suffix = "") {
+  const startTime = performance.now();
 
-  worker.postMessage({
-    rows: DATA,
-    filters: {
-      contract: $("fContract").value,
-      internet: $("fInternet").value,
-      tMin: Number($("tMin").value || 0),
-      tMax: Number($("tMax").value || 72),
-    }
-  });
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const value = start + (end - start) * progress;
+
+    // If it's a big number (customers), show no decimals
+    if (suffix === "") el.textContent = Math.round(value);
+    else el.textContent = `${value.toFixed(1)}${suffix}`;
+
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function renderKPIs(rows) {
+  const total = rows.length;
+  const churned = rows.filter(r => r.Churn === "Yes").length;
+  const churnRate = total ? (churned / total) * 100 : 0;
+
+  const avgMonthly = total
+    ? rows.reduce((sum, r) => sum + Number(r.MonthlyCharges || 0), 0) / total
+    : 0;
+
+  const customersEl = document.getElementById("kpi-customers");
+  const churnEl = document.getElementById("kpi-churn");
+  const avgEl = document.getElementById("kpi-avg");
+
+  if (!customersEl || !churnEl || !avgEl) return;
+
+  animateValue(customersEl, 0, total, 700);
+  animateValue(churnEl, 0, churnRate, 900, "%");
+  animateValue(avgEl, 0, avgMonthly, 900, "$");
 }
 
 function renderCohorts(rows){
