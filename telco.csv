@@ -1,0 +1,21 @@
+customerID,gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,InternetService,Contract,MonthlyCharges,Churn
+0001-FHD,Female,0,Yes,No,1,Yes,No,Fiber optic,Month-to-month,89.85,Yes
+0002-KLM,Male,0,No,No,2,Yes,No,DSL,Month-to-month,53.95,No
+0003-QWE,Female,1,Yes,Yes,5,Yes,Yes,Fiber optic,Month-to-month,102.30,Yes
+0004-ASD,Male,0,No,No,8,Yes,No,DSL,One year,49.25,No
+0005-ZXC,Female,0,Yes,No,12,Yes,Yes,Fiber optic,Month-to-month,95.60,Yes
+0006-RTY,Male,1,No,No,18,Yes,No,DSL,One year,58.75,No
+0007-UIO,Female,0,Yes,Yes,24,Yes,Yes,Fiber optic,Two year,79.90,No
+0008-HJK,Male,0,No,No,30,Yes,No,DSL,Two year,45.10,No
+0009-VBN,Female,1,Yes,No,3,Yes,Yes,Fiber optic,Month-to-month,99.20,Yes
+0010-NMM,Male,0,No,Yes,36,Yes,No,DSL,Two year,52.40,No
+0011-AAA,Female,0,Yes,No,6,Yes,Yes,Fiber optic,Month-to-month,92.15,Yes
+0012-BBB,Male,0,No,No,15,Yes,No,DSL,One year,55.60,No
+0013-CCC,Female,1,Yes,Yes,22,Yes,Yes,Fiber optic,One year,88.30,No
+0014-DDD,Male,0,No,No,40,Yes,No,DSL,Two year,47.95,No
+0015-EEE,Female,0,Yes,No,9,Yes,Yes,Fiber optic,Month-to-month,97.75,Yes
+0016-FFF,Male,1,No,No,4,Yes,No,Fiber optic,Month-to-month,105.10,Yes
+0017-GGG,Female,0,Yes,Yes,28,Yes,Yes,DSL,Two year,60.45,No
+0018-HHH,Male,0,No,No,19,Yes,No,DSL,One year,54.90,No
+0019-III,Female,1,Yes,No,7,Yes,Yes,Fiber optic,Month-to-month,91.80,Yes
+0020-JJJ,Male,0,No,Yes,48,Yes,No,DSL,Two year,50.25,No

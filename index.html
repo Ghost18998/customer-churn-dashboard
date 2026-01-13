@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer Churn Intelligence Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <div class="title">Customer Churn Intelligence</div>
+        <div class="subtitle">End-to-end churn analytics: segmentation • risk scoring • what-if ROI</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btnDemo" class="btn">Load Demo Data</button>
+      <button id="btnReset" class="btn btn-ghost">Reset</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="sectionHead">
+        <h2>Controls</h2>
+        <div class="hint">Filters affect KPIs, cohorts, drivers, and risk table.</div>
+      </div>
+
+      <div class="filters">
+        <div class="field">
+          <label>Contract</label>
+          <select id="fContract">
+            <option value="All">All</option>
+            <option value="Month-to-month">Month-to-month</option>
+            <option value="One year">One year</option>
+            <option value="Two year">Two year</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Internet</label>
+          <select id="fInternet">
+            <option value="All">All</option>
+            <option value="Fiber optic">Fiber optic</option>
+            <option value="DSL">DSL</option>
+            <option value="None">None</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tenure range (months)</label>
+          <div class="rangeRow">
+            <input id="tMin" type="number" min="0" max="72" value="0" />
+            <span>to</span>
+            <input id="tMax" type="number" min="0" max="72" value="72" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Risk threshold</label>
+          <input id="riskCut" type="range" min="0" max="100" value="65" />
+          <div class="small" id="riskCutLabel">65</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid3">
+      <div class="metric card">
+        <div class="k">Customers</div>
+        <div class="v" id="kCustomers">—</div>
+        <div class="small" id="kCustomersSub">Filtered dataset</div>
+      </div>
+      <div class="metric card">
+        <div class="k">Churn rate</div>
+        <div class="v" id="kChurn">—</div>
+        <div class="small" id="kChurnSub">Observed churn</div>
+      </div>
+      <div class="metric card">
+        <div class="k">Avg monthly</div>
+        <div class="v" id="kMonthly">—</div>
+        <div class="small" id="kMonthlySub">Revenue intensity</div>
+      </div>
+    </section>
+
+    <section class="grid2">
+      <section class="card">
+        <div class="sectionHead">
+          <h2>Cohorts</h2>
+          <div class="hint">Churn by tenure bucket • contract • internet service</div>
+        </div>
+        <div class="charts">
+          <div class="chartBlock">
+            <div class="chartTitle">Tenure cohort churn</div>
+            <div id="cTenure" class="chart"></div>
+          </div>
+          <div class="chartBlock">
+            <div class="chartTitle">Contract churn</div>
+            <div id="cContract" class="chart"></div>
+          </div>
+          <div class="chartBlock">
+            <div class="chartTitle">Internet churn</div>
+            <div id="cInternet" class="chart"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="sectionHead">
+          <h2>Drivers & Explainability</h2>
+          <div class="hint">“Lift” compares segment churn to baseline churn</div>
+        </div>
+        <div class="drivers">
+          <ol id="drivers"></ol>
+          <div class="explain">
+            <div class="chartTitle">Risk score breakdown (selected)</div>
+            <div id="explainBox" class="explainBox">Click a customer in the table to see why the score is high.</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <h2>What-If ROI Simulator</h2>
+        <div class="hint">Estimate churn improvement and ROI from contract conversion campaigns</div>
+      </div>
+      <div class="whatif">
+        <div class="field">
+          <label>Convert Month-to-month → One year (%)</label>
+          <input id="wOne" type="range" min="0" max="60" value="15" />
+          <div class="small" id="wOneLab">15%</div>
+        </div>
+        <div class="field">
+          <label>Convert Month-to-month → Two year (%)</label>
+          <input id="wTwo" type="range" min="0" max="60" value="10" />
+          <div class="small" id="wTwoLab">10%</div>
+        </div>
+        <div class="field">
+          <label>Cost per converted customer ($)</label>
+          <input id="wCost" type="number" min="0" value="35" />
+          <div class="small">Assumption for outreach incentive</div>
+        </div>
+        <div class="roi">
+          <div class="roiBox">
+            <div class="k">Current churn</div><div class="v" id="wCur">—</div>
+          </div>
+          <div class="roiBox">
+            <div class="k">Simulated churn</div><div class="v" id="wNew">—</div>
+          </div>
+          <div class="roiBox">
+            <div class="k">Churn reduction</div><div class="v" id="wDelta">—</div>
+          </div>
+          <div class="roiBox">
+            <div class="k">Est. saved customers</div><div class="v" id="wSaved">—</div>
+          </div>
+          <div class="roiBox">
+            <div class="k">Est. ROI</div><div class="v" id="wROI">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <h2>High-Risk Customers</h2>
+        <div class="hint">Risk score is computed from churn signals. Threshold drives “At-risk” labeling.</div>
+      </div>
+      <div class="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer</th><th>Risk</th><th>At-risk</th><th>Contract</th><th>Tenure</th><th>Monthly</th><th>Internet</th><th>Churn</th>
+            </tr>
+          </thead>
+          <tbody id="riskRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Built with free tools (HTML/CSS/JS). Demo dataset used for UX + analytics logic validation.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
